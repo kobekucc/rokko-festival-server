@@ -1,9 +1,9 @@
 package main
 
 import (
-   
+    "fmt"
     "os"
-    "log"
+   
 
     "github.com/jinzhu/gorm"
 )
@@ -33,7 +33,7 @@ datasource = "bc70a65d138ae3:14ea8170@tcp(us-cdbr-east-02.cleardb.com:3306)/hero
     db, err = gorm.Open("mysql",datasource )
     if err != nil {
       
-        log.Fatalf("Got error when connect database, the error is '%v'", err)
+        panic("failed to connect database")
     }
 
     db.AutoMigrate(&Product{})
