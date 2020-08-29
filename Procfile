@@ -1,1 +1,1 @@
-web: kucc-rokko-festival
+web: rokko-festival-server
