@@ -31,7 +31,7 @@ func main() {
     e.GET("/products/:id", showProduct)
 
     e.POST("/products", createProduct)
-    e.POST("/comment/:id/:comment",createProduct)
+    e.POST("/comment/:id/:comment",createComment)
 
 
 
