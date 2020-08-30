@@ -3,7 +3,8 @@ package main
 import (
     "log"
     "net/http"
-	"os"
+    "os"
+    "strconv"
 
     _ "github.com/go-sql-driver/mysql"
     "github.com/labstack/echo"
@@ -56,8 +57,8 @@ func createProduct(c echo.Context) error {
     return c.JSON(http.StatusOK, product)
 }
 func createComment(c echo.Context) error {
-    
-    comment := Comment{WorkId: c.Param("id"), Comment: c.Param("comment")}
+    id, _ := strconv.ParseUint(c.Param("id"), 10, 64)
+    comment := Comment{WorkId: uint(id), Comment: c.Param("comment")}
     db.Create(&comment)
-    return c.JSON(http.StatusOK, product)
+    return c.JSON(http.StatusOK, comment)
 }
