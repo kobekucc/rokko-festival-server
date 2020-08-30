@@ -30,6 +30,9 @@ func main() {
     e.GET("/products/:id", showProduct)
 
     e.POST("/products", createProduct)
+    e.POST("/comment/:id/:comment",createProduct)
+
+
 
     e.Logger.Fatal(e.Start(":" + port))
 }
@@ -50,5 +53,11 @@ func showProduct(c echo.Context) error {
 func createProduct(c echo.Context) error {
     product := Product{Code: "ABCDEF", Price: 1000}
     db.Create(&product)
+    return c.JSON(http.StatusOK, product)
+}
+func createComment(c echo.Context) error {
+    
+    comment := Comment{WorkId: c.Param("id"), Comment: c.Param("comment")}
+    db.Create(&comment)
     return c.JSON(http.StatusOK, product)
 }
