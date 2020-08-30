@@ -20,6 +20,8 @@ func main() {
 
     e := echo.New()
 
+    e.Use(middleware.CORS())
+
     // middleware
     e.Use(middleware.Logger())
 
