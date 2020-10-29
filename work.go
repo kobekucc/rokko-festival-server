@@ -4,7 +4,7 @@ import "github.com/jinzhu/gorm"
 
 type Work struct {
 	gorm.Model
+	Type   string
 	WorkId uint
-	Name  string
-	Vote uint
+	Vote   uint
 }
