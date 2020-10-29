@@ -27,11 +27,8 @@ func main() {
 	e.Use(middleware.Logger())
 
 	// routing
-	e.GET("/products", indexProduct)
-	e.GET("/products/:id", showProduct)
 	e.GET("/vote/:type/:id", checkExistVote) //投票があったら（レコードがあったら）１を返す（レコードが存在）
 
-	e.POST("/products", createProduct)
 	e.POST("/comment/:type/:id/:comment", createComment)
 	e.POST("/vote/:type/:id", createVote)
 
@@ -40,24 +37,6 @@ func main() {
 	e.Logger.Fatal(e.Start(":" + port))
 }
 
-func indexProduct(c echo.Context) error {
-	var products []Product
-	db.Find(&products)
-	jsonObject := map[string][]Product{"products": products}
-	return c.JSON(http.StatusOK, jsonObject)
-}
-
-func showProduct(c echo.Context) error {
-	var product Product
-	db.First(&product, c.Param("id"))
-	return c.JSON(http.StatusOK, product)
-}
-
-func createProduct(c echo.Context) error {
-	product := Product{Code: "ABCDEF", Price: 1000}
-	db.Create(&product)
-	return c.JSON(http.StatusOK, product)
-}
 func createComment(c echo.Context) error {
 	id, _ := strconv.ParseUint(c.Param("id"), 10, 64)
 	comment := Comment{Type: c.Param("type"), WorkId: uint(id), Comment: c.Param("comment")}
