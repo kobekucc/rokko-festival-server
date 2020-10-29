@@ -32,6 +32,7 @@ func main() {
 
 	e.POST("/products", createProduct)
 	e.POST("/comment/:type/:id/:comment", createComment)
+	e.POST("/vote/:type/:id", createVote)
 
 	e.Logger.Fatal(e.Start(":" + port))
 }
@@ -59,4 +60,10 @@ func createComment(c echo.Context) error {
 	comment := Comment{Type: c.Param("type"), WorkId: uint(id), Comment: c.Param("comment")}
 	db.Create(&comment)
 	return c.JSON(http.StatusOK, comment)
+}
+func createVote(c echo.Context) error {
+	id, _ := strconv.ParseUint(c.Param("id"), 10, 64)
+	work := Work{Type: c.Param("type"), WorkId: uint(id), Vote: 1}
+	db.Create(&work)
+	return c.JSON(http.StatusOK, work)
 }
