@@ -29,7 +29,7 @@ func main() {
 	// routing
 	e.GET("/products", indexProduct)
 	e.GET("/products/:id", showProduct)
-	e.GET("/votes/:type/:id", getVotesNum)
+	e.GET("/vote/:type/:id", checkExistVote) //投票があったら（レコードがあったら）１を返す（レコードが存在）
 
 	e.POST("/products", createProduct)
 	e.POST("/comment/:type/:id/:comment", createComment)
@@ -70,9 +70,10 @@ func createVote(c echo.Context) error {
 	db.Create(&work)
 	return c.JSON(http.StatusOK, work)
 }
-func getVotesNum(c echo.Context) error {
+func checkExistVote(c echo.Context) error {
 	var count int
-	db.Where("type = ? AND work_id = ?", c.Param("type"), c.Param("id")).Count(&count)
+	var works []Work
+	db.Where("type = ? AND work_id = ?", c.Param("type"), c.Param("id")).First(&works).Count(&count)
 	return c.JSON(http.StatusOK, count)
 }
 func incrementVote(c echo.Context) error {
