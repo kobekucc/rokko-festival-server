@@ -25,7 +25,6 @@ func init() {
 		panic("failed to connect database")
 	}
 
-	db.AutoMigrate(&Product{})
 	db.AutoMigrate(&Comment{})
 	db.AutoMigrate(&Work{})
 }
