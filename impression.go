@@ -5,5 +5,5 @@ import "github.com/jinzhu/gorm"
 type Impression struct {
 	gorm.Model
 	Type string
-	Impression string
+	Comment string
 }
