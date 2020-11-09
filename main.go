@@ -31,7 +31,7 @@ func main() {
 
 	e.POST("/comment/:type/:id/:comment", createComment)
 	e.POST("/vote/:type/:id", createVote)
-	e.POST("/questionnaire/", createQuestionnaire)
+	e.POST("/questionnaire/:age/:gender/:rate/:opinion", createQuestionnaire)
 	e.POST("/impression/:type/:comment", createImpression)
 
 	e.PUT("/vote/:type/:id", incrementVote)
@@ -66,16 +66,10 @@ func incrementVote(c echo.Context) error {
 	return c.JSON(http.StatusOK, work)
 }
 func createQuestionnaire(c echo.Context) error {
-	param := new(Questionnaire)
-    if err := c.Bind(param); err != nil {
-        return err
-    }
-	questionnaire := Questionnaire{Age: param.Age,
-		Gender: param.Gender,
-		Rate:  param.Rate,
-		Opinion: param.Opinion}
+	rate, _ := strconv.ParseUint(c.Param("rate"), 10, 64)
+	questionnaire:= Questionnaire{Age: c.Param("age"),Gender: c.Param("gender"),Rate: uint(rate), Opinion: c.Param("opinion")}
 	db.Create(&questionnaire)
-	return c.JSON(http.StatusOK, param)
+	return c.JSON(http.StatusOK, questionnaire)
 }
 func createImpression(c echo.Context) error {
 	impression := Impression{Type: c.Param("type"),Comment: c.Param("comment")}
