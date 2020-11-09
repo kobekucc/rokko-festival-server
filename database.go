@@ -27,4 +27,5 @@ func init() {
 
 	db.AutoMigrate(&Comment{})
 	db.AutoMigrate(&Work{})
+	db.AutoMigrate(&Questionnaire{})
 }
