@@ -75,5 +75,5 @@ func createQuestionnaire(c echo.Context) error {
 		Rate:  param.Rate,
 		Opinion: param.Opinion}
 	db.Create(&questionnaire)
-	return c.JSON(http.StatusOK, questionnaire)
+	return c.JSON(http.StatusOK, param)
 }
