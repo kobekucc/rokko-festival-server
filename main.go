@@ -78,7 +78,7 @@ func createQuestionnaire(c echo.Context) error {
 	return c.JSON(http.StatusOK, param)
 }
 func createImpression(c echo.Context) error {
-	impression := Impression{Type: c.Param("type"), Comment: c.Param("comment")}
+	impression := Impression{Type: c.Param("type"),Comment: c.Param("comment")}
 	db.Create(&impression)
 	return c.JSON(http.StatusOK, impression)
 }
