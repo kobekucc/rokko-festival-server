@@ -31,8 +31,8 @@ func main() {
 
 	e.POST("/comment/:type/:id/:comment", createComment)
 	e.POST("/vote/:type/:id", createVote)
-
 	e.POST("/questionnaire/", createQuestionnaire)
+	e.POST("/impression/:type/:impression", createImpression)
 
 	e.PUT("/vote/:type/:id", incrementVote)
 
@@ -76,4 +76,9 @@ func createQuestionnaire(c echo.Context) error {
 		Opinion: param.Opinion}
 	db.Create(&questionnaire)
 	return c.JSON(http.StatusOK, param)
+}
+func createImpression(c echo.Context) error {
+	impression := Comment{Type: c.Param("type"), Impression: c.Param("impression")}
+	db.Create(&impression)
+	return c.JSON(http.StatusOK, impression)
 }
