@@ -34,7 +34,8 @@ func main() {
 	e.POST("/questionnaire/:age/:gender/:rate/:opinion", createQuestionnaire)
 	e.POST("/impression/:type/:comment", createImpression)
 
-	e.POST("/book/:num/:name/:switchname", createOnetoone)
+	e.POST("/book/:order/:num/:name/:switchname", createOnetoone)
+	e.GET("/book/", getAllOnetoone)
 
 	e.PUT("/vote/:type/:id", incrementVote)
 
@@ -79,8 +80,14 @@ func createImpression(c echo.Context) error {
 	return c.JSON(http.StatusOK, impression)
 }
 func createOnetoone(c echo.Context) error {
+	order, _ := strconv.ParseUint(c.Param("order"), 10, 64)
 	num, _ := strconv.ParseUint(c.Param("num"), 10, 64)
-	onetoone := Onetoone{NumberOfTimes: uint(num),Name:c.Param("name"),SwitchName: c.Param("switchname")}
+	onetoone := Onetoone{Order:uint(order),NumberOfTimes: uint(num),Name:c.Param("name"),SwitchName: c.Param("switchname")}
 	db.Create(&onetoone)
 	return c.JSON(http.StatusOK, onetoone)
+}
+func getAllOnetoone(c echo.Context) error {
+	var count int
+	db.Table("onetoones").Count(&count)
+	return c.JSON(http.StatusOK, count)
 }
