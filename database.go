@@ -29,4 +29,5 @@ func init() {
 	db.AutoMigrate(&Work{})
 	db.AutoMigrate(&Questionnaire{})
 	db.AutoMigrate(&Impression{})
+	db.AutoMigrate(&Onetoone{})
 }

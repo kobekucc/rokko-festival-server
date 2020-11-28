@@ -34,6 +34,8 @@ func main() {
 	e.POST("/questionnaire/:age/:gender/:rate/:opinion", createQuestionnaire)
 	e.POST("/impression/:type/:comment", createImpression)
 
+	e.POST("/book/:num/:name/:switchname", createOnetoone)
+
 	e.PUT("/vote/:type/:id", incrementVote)
 
 	e.Logger.Fatal(e.Start(":" + port))
@@ -75,4 +77,10 @@ func createImpression(c echo.Context) error {
 	impression := Impression{Type: c.Param("type"),Comment: c.Param("comment")}
 	db.Create(&impression)
 	return c.JSON(http.StatusOK, impression)
+}
+func createOnetoone(c echo.Context) error {
+	num, _ := strconv.ParseUint(c.Param("num"), 10, 64)
+	onetoone := Onetoone{NumberOfTimes: num,Name:c.Param("name"),SwitchName: c.Param("switchname")}
+	db.Create(&onetoone)
+	return c.JSON(http.StatusOK, onetoone)
 }
