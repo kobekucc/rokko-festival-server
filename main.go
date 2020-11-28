@@ -80,7 +80,7 @@ func createImpression(c echo.Context) error {
 }
 func createOnetoone(c echo.Context) error {
 	num, _ := strconv.ParseUint(c.Param("num"), 10, 64)
-	onetoone := Onetoone{NumberOfTimes: num,Name:c.Param("name"),SwitchName: c.Param("switchname")}
+	onetoone := Onetoone{NumberOfTimes: uint(num),Name:c.Param("name"),SwitchName: c.Param("switchname")}
 	db.Create(&onetoone)
 	return c.JSON(http.StatusOK, onetoone)
 }
