@@ -37,7 +37,7 @@ func main() {
 	e.POST("/book/:order/:num/:name/:switchname", createOnetoone)
 	e.GET("/book/all", getAllOnetoone)
 	e.GET("/book/count", getOnetooneNum)
-	e.DELETE("/book/delete", deleteAllOnetoone)
+	e.PUT("/book/:name/:order", putOrder)
 
 	e.PUT("/vote/:type/:id", incrementVote)
 
@@ -99,7 +99,13 @@ func getOnetooneNum(c echo.Context) error {
 	db.Table("onetoones").Count(&count)
 	return c.JSON(http.StatusOK, count)
 }
-func deleteAllOnetoone(c echo.Context) error {
-	db.DropTable(&Onetoone{})
-	return c.JSON(http.StatusOK, nil)
+func putOrder(c echo.Context) error {
+	var onetoone Onetoone
+	db.Where("name = ? ",  c.Param("name")).First(&onetoone)
+
+	order, _ := strconv.ParseUint(c.Param("order"), 10, 64)
+
+	onetoone.Order=uint(order)
+	db.Save(&onetoone)
+	return c.JSON(http.StatusOK, onetoone)
 }
