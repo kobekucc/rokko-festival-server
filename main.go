@@ -112,7 +112,7 @@ func putOrder(c echo.Context) error {
 }
 func deleteOrder(c echo.Context) error {
 	var onetoone Onetoone
-	db.Where("name = ?",c.Param("name") ).Delete(&onetoone)
+	db.Table("onetoones").Where("name = ?",c.Param("name") ).Delete(&onetoone)
 
 	return c.JSON(http.StatusOK, nil)
 }
