@@ -35,7 +35,8 @@ func main() {
 	e.POST("/impression/:type/:comment", createImpression)
 
 	e.POST("/book/:order/:num/:name/:switchname", createOnetoone)
-	e.GET("/book/", getAllOnetoone)
+	e.GET("/book/all", getAllOnetoone)
+	e.GET("/book/count", getOnetooneNum)
 
 	e.PUT("/vote/:type/:id", incrementVote)
 
@@ -87,6 +88,12 @@ func createOnetoone(c echo.Context) error {
 	return c.JSON(http.StatusOK, onetoone)
 }
 func getAllOnetoone(c echo.Context) error {
+	var all []Onetoone
+
+	db.Find(&all)
+	return c.JSON(http.StatusOK, all)
+}
+func getOnetooneNum(c echo.Context) error {
 	var count int
 	db.Table("onetoones").Count(&count)
 	return c.JSON(http.StatusOK, count)
