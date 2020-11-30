@@ -38,6 +38,7 @@ func main() {
 	e.GET("/book/all", getAllOnetoone)
 	e.GET("/book/count", getOnetooneNum)
 	e.PUT("/book/:name/:order", putOrder)
+	e.DELETE("/book/:name/", deleteOrder)
 
 	e.PUT("/vote/:type/:id", incrementVote)
 
@@ -109,3 +110,9 @@ func putOrder(c echo.Context) error {
 	db.Save(&onetoone)
 	return c.JSON(http.StatusOK, onetoone)
 }
+func deleteOrder(c echo.Context) error {
+	db.Where("name = ?",c.Param("name") ).Delete(&Onetoone{})
+
+	return c.JSON(http.StatusOK, nil)
+}
+
