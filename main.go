@@ -38,7 +38,7 @@ func main() {
 	e.GET("/book/all", getAllOnetoone)
 	e.GET("/book/count", getOnetooneNum)
 	e.PUT("/book/:name/:order", putOrder)
-	e.PUT("/book/:name/:done", putDone)
+	e.PUT("/book/done/:name/:done", putDone)
 	e.DELETE("/book/delete/:id/", deleteOrder)
 
 	e.PUT("/vote/:type/:id", incrementVote)
