@@ -8,4 +8,5 @@ type Onetoone struct {
 	NumberOfTimes uint
 	Name string
 	SwitchName string
+	Done uint
 }

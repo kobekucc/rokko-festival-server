@@ -38,6 +38,7 @@ func main() {
 	e.GET("/book/all", getAllOnetoone)
 	e.GET("/book/count", getOnetooneNum)
 	e.PUT("/book/:name/:order", putOrder)
+	e.PUT("/book/:name/:done", putDone)
 	e.DELETE("/book/delete/:id/", deleteOrder)
 
 	e.PUT("/vote/:type/:id", incrementVote)
@@ -85,7 +86,7 @@ func createImpression(c echo.Context) error {
 func createOnetoone(c echo.Context) error {
 	order, _ := strconv.ParseUint(c.Param("order"), 10, 64)
 	num, _ := strconv.ParseUint(c.Param("num"), 10, 64)
-	onetoone := Onetoone{Order:uint(order),NumberOfTimes: uint(num),Name:c.Param("name"),SwitchName: c.Param("switchname")}
+	onetoone := Onetoone{Order:uint(order),NumberOfTimes: uint(num),Name:c.Param("name"),SwitchName: c.Param("switchname"),Done:0}
 	db.Create(&onetoone)
 	return c.JSON(http.StatusOK, onetoone)
 }
@@ -107,6 +108,16 @@ func putOrder(c echo.Context) error {
 	order, _ := strconv.ParseUint(c.Param("order"), 10, 64)
 
 	onetoone.Order=uint(order)
+	db.Save(&onetoone)
+	return c.JSON(http.StatusOK, onetoone)
+}
+func putDone(c echo.Context) error {
+	var onetoone Onetoone
+	db.Where("name = ? ",  c.Param("name")).First(&onetoone)
+
+	done, _ := strconv.ParseUint(c.Param("done"), 10, 64)
+
+	onetoone.Done=uint(done)
 	db.Save(&onetoone)
 	return c.JSON(http.StatusOK, onetoone)
 }
